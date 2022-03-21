@@ -4,7 +4,16 @@ let voteId;
 
 context('Vote Function', () => {
 
-    it('POST', () => {
+    beforeEach( function (){
+
+        cy.fixture('cat-api').then((data) => {
+            this.data = data;
+            this.body = data.body;
+        })
+
+    })
+
+    it('POST', function (){
 
         cy.request({
 
@@ -12,13 +21,13 @@ context('Vote Function', () => {
             url : '/votes',
             headers : {
                 'content-type' : 'application/json',
-                'x-api-key' : '6e8d65d9-b466-4d3b-852c-b2e1f637e101'
+                'x-api-key' : ''+this.data.xapikey+''
 
             },
             body : {
-                'image_id' :'MTYyNjg3Ng',
-                'sub_id': 'demo-64b31a',
-                'value' : 1
+                'image_id' :''+this.body.image_id+'',
+                'sub_id': ''+this.body.sub_id+'',
+                'value' : this.body.value
             }
 
         }).then((response) => {
@@ -31,7 +40,7 @@ context('Vote Function', () => {
 
     });
 
-    it('GET', () => {
+    it('GET', function (){
 
         cy.request({
 
@@ -39,7 +48,7 @@ context('Vote Function', () => {
             url : '/votes/'+voteId+'',
             headers : {
                 'content-type' : 'application/json',
-                'x-api-key' : '6e8d65d9-b466-4d3b-852c-b2e1f637e101'
+                'x-api-key' : ''+this.data.xapikey+''
 
             },
 
@@ -52,7 +61,7 @@ context('Vote Function', () => {
     });
 
 
-    it('DELETE', () => {
+    it('DELETE', function () {
 
         cy.request({
 
@@ -60,7 +69,7 @@ context('Vote Function', () => {
             url : '/votes/'+ voteId +'',
             headers : {
                 'content-type' : 'application/json',
-                'x-api-key' : '6e8d65d9-b466-4d3b-852c-b2e1f637e101'
+                'x-api-key' : ''+this.data.xapikey+''
 
             },
 
